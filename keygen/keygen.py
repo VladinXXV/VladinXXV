@@ -90,7 +90,12 @@ def blacklistCharacters(numbers: list, letters: list, symbols: list, blacklist: 
 
 	# If printToConsole is True, prompt the user to input the blacklist if it wasn't given already
 	if printToConsole and not isinstance(blacklist, list):
-		blacklist = list(input("Enter all English ASCII letters, punctuation (bar whitespace), and/or digits prohibited from being in your password:\n"))
+		while True:
+			blacklist = list(input("Enter all English ASCII letters, punctuation (bar whitespace), and/or digits prohibited from being in your password:\n"))
+			if len((set(numbers) | set(letters) | set(symbols)) - set(blacklist)) == 0:
+				print("You must allow at least one character to be used to generate a key.")
+			else:
+				break
 	# If printToConsole is False and blacklist is None, raise a ValueError
 	elif blacklist == None:
 		raise TypeError("Input argument 'blacklist' cannot be None if the argument 'printToConsole' is False. Must be 'list' or 'printToConsole' must be True.")
